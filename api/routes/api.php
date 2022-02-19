@@ -1,20 +1,31 @@
 <?php
 
-use App\Http\Controllers\ExpenseController;
-use App\Http\Controllers\IncomeController;
-use App\Http\Controllers\LoanController;
-use Illuminate\Http\Request;
+use App\Http\Controllers\Api\ExpenseController;
+use App\Http\Controllers\Api\IncomeController;
+use App\Http\Controllers\Api\LoanController;
 use Illuminate\Support\Facades\Route;
 
-Route::resource("/income", IncomeController::class)
-    ->except([
-        "create",
-    ])
-    ->names('income');
+Route::controller(RegisterController::class)->group(function () {
+    Route::post('register', 'register');
+    Route::post('login', 'login');
+});
 
-Route::resource("/expense", ExpenseController::class)->names('expense');
-Route::resource("/loan", LoanController::class)->names('loan');
+Route::middleware('auth:sanctum')->group(function () {
+    Route::resource("/income", IncomeController::class)
+        ->except([
+            "create",
+            "edit",
+        ])->names('income');
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+    Route::resource("/expense", ExpenseController::class)
+        ->except([
+            "create",
+            "edit",
+        ])->names('expense');
+
+    Route::resource("/loan", LoanController::class)
+        ->except([
+            "create",
+            "edit",
+        ])->names('loan');
 });
