@@ -14,17 +14,7 @@ class IncomeController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return Income::all();
     }
 
     /**
@@ -35,7 +25,7 @@ class IncomeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        return Income::create($request->all());
     }
 
     /**
