@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\ExpenseController;
 use App\Http\Controllers\Api\IncomeController;
 use App\Http\Controllers\Api\LoanController;
+use App\Http\Controllers\Api\RegisterController;
 use Illuminate\Support\Facades\Route;
 
 Route::controller(RegisterController::class)->group(function () {

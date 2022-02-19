@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Api\BaseController;
+use App\Http\Resources\IncomeResource;
 use App\Models\Api\Income;
 use Illuminate\Http\Request;
+use Validator;
 
 class IncomeController extends BaseController
 {
@@ -18,7 +20,6 @@ class IncomeController extends BaseController
         $income = Income::all();
 
         return $this->sendResponse(IncomeResource::collection($income), 'Income retrieved successfully.');
-
     }
 
     /**
