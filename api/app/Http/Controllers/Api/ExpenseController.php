@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
-use App\Models\Api\Loan;
+use App\Http\Controllers\Api\BaseController;
+use App\Models\Api\Expense;
 use Illuminate\Http\Request;
 
-class LoanController extends Controller
+class ExpenseController extends BaseController
 {
     /**
      * Display a listing of the resource.
@@ -41,10 +42,10 @@ class LoanController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Api\Loan  $loan
+     * @param  \App\Models\Api\Expense  $expense
      * @return \Illuminate\Http\Response
      */
-    public function show(Loan $loan)
+    public function show(Expense $expense)
     {
         //
     }
@@ -52,10 +53,10 @@ class LoanController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Api\Loan  $loan
+     * @param  \App\Models\Api\Expense  $expense
      * @return \Illuminate\Http\Response
      */
-    public function edit(Loan $loan)
+    public function edit(Expense $expense)
     {
         //
     }
@@ -64,10 +65,10 @@ class LoanController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Api\Loan  $loan
+     * @param  \App\Models\Api\Expense  $expense
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Loan $loan)
+    public function update(Request $request, Expense $expense)
     {
         //
     }
@@ -75,10 +76,10 @@ class LoanController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Api\Loan  $loan
+     * @param  \App\Models\Api\Expense  $expense
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Loan $loan)
+    public function destroy(Expense $expense)
     {
         //
     }
