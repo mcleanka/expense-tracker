@@ -2,6 +2,8 @@
 
 namespace App\Models\Api;
 
+use App\Models\Api\Income;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -20,4 +22,14 @@ class Expense extends Model
     protected $dates = [
         "date",
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function income()
+    {
+        return $this->belongsTo(Income::class);
+    }
 }
