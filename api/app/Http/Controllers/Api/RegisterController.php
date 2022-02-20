@@ -53,4 +53,19 @@ class RegisterController extends BaseController
             return $this->sendError('Unauthorised.', ['error' => 'Unauthorised']);
         }
     }
+
+    /**
+     * Logout api
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function logout(Request $request)
+    {
+        if (auth()->user()->tokens()->delete()) {
+            return $this->sendResponse($success, 'User logout successfully.');
+        } else {
+            return $this->sendError('Unauthorised.', ['error' => 'Unauthorised']);
+        }
+
+    }
 }
