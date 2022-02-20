@@ -2,6 +2,7 @@
 
 namespace App\Models\Api;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -19,4 +20,9 @@ class Income extends Model
     protected $dates = [
         "date",
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }
