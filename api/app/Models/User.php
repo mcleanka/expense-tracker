@@ -2,6 +2,9 @@
 
 namespace App\Models;
 
+use App\Models\Api\Expense;
+use App\Models\Api\Income;
+use App\Models\Api\Loan;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -40,4 +43,19 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function income()
+    {
+        return $this->hasMany(Income::class);
+    }
+
+    public function expense()
+    {
+        return $this->hasMany(Expense::class);
+    }
+
+    public function loan()
+    {
+        return $this->hasMany(Loan::class);
+    }
 }
