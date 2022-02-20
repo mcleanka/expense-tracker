@@ -30,20 +30,23 @@ class IncomeController extends BaseController
      */
     public function store(Request $request)
     {
-        return Income::create($request->all());
+        // dd();
 
         $input = $request->all();
 
         $validator = Validator::make($input, [
             'name' => 'required',
-            'detail' => 'required',
+            'owner' => 'required',
+            'amount' => 'required',
+            'date' => 'required',
         ]);
 
         if ($validator->fails()) {
             return $this->sendError('Validation Error.', $validator->errors());
         }
 
-        $income = Income::create($input);
+        $income = auth()->user()->income()->create($input);
+
         return $this->sendResponse(new IncomeResource($income), 'Income created successfully.');
 
     }
@@ -54,9 +57,12 @@ class IncomeController extends BaseController
      * @param  \App\Models\Api\Income  $income
      * @return \Illuminate\Http\Response
      */
-    public function show(Income $income)
+    public function show($id)
     {
-        $income = Income::find($id);
+
+        $income = Income::with([
+            "user",
+        ])->find($id);
 
         if (is_null($income)) {
             return $this->sendError('Income not found.');
@@ -78,16 +84,16 @@ class IncomeController extends BaseController
 
         $validator = Validator::make($input, [
             'name' => 'required',
-            'detail' => 'required',
+            'owner' => 'required',
+            'amount' => 'required',
+            'date' => 'required',
         ]);
 
         if ($validator->fails()) {
             return $this->sendError('Validation Error.', $validator->errors());
         }
 
-        $income->name = $input['name'];
-        $income->detail = $input['detail'];
-        $income->save();
+        auth()->user()->income()->update($request->all());
 
         return $this->sendResponse(new IncomeResource($income), 'Income updated successfully.');
 
