@@ -1,2 +1,4 @@
 # expense-tracker
-Income tracker app
+Income tracking app
+
+Built in Vue and Laravel
