@@ -46,9 +46,15 @@ class RegisterController extends BaseController
     {
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
             $user = Auth::user();
-            $success['token'] = $user->createToken('MyApp')->plainTextToken;
-            $success['name'] = $user->name;
-            return $this->sendResponse($success, 'User login successfully.');
+            $token = $user->createToken('MyApp')->plainTextToken;
+
+            $user->api_token = $token;
+
+            return $this->sendResponse([
+                "token" => $token,
+                "name" => $user->name,
+            ], 'User login successfully.');
+
         } else {
             return $this->sendError('Unauthorised.', ['error' => 'Unauthorised']);
         }
@@ -61,11 +67,12 @@ class RegisterController extends BaseController
      */
     public function logout(Request $request)
     {
-        if (auth()->user()->tokens()->delete()) {
-            return $this->sendResponse($success, 'User logout successfully.');
-        } else {
-            return $this->sendError('Unauthorised.', ['error' => 'Unauthorised']);
+        if (auth()->user()) {
+            if (auth()->user()->tokens()->delete()) {
+                return $this->sendResponse("Success", 'User logout successfully.');
+            }
         }
 
+        return $this->sendError('Failed.', ['error' => 'Logout failed']);
     }
 }

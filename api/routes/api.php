@@ -29,4 +29,6 @@ Route::middleware('auth:sanctum')->group(function () {
             "create",
             "edit",
         ])->names('loan');
+
+    Route::get("/logout", [RegisterController::class, "logout"])->name("logout");
 });
