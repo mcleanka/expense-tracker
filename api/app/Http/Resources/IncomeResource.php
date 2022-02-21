@@ -24,9 +24,9 @@ class IncomeResource extends JsonResource
             'description' => $this->description,
             'owner' => $this->owner,
             'amount' => $this->amount,
-            'date' => $this->date->format('jS F, Y'),
-            'created_at' => $this->created_at->format('jS F, Y'),
-            'updated_at' => $this->updated_at->format('jS F, Y'),
+            'date' => $this->date,
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
         ];
     }
 }
