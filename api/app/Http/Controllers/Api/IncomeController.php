@@ -59,10 +59,9 @@ class IncomeController extends BaseController
      */
     public function show($id)
     {
-
         $income = Income::with([
             "user",
-        ])->find($id);
+        ])->findOrFail($id);
 
         if (is_null($income)) {
             return $this->sendError('Income not found.');
