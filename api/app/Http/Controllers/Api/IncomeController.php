@@ -30,8 +30,6 @@ class IncomeController extends BaseController
      */
     public function store(Request $request)
     {
-        // dd();
-
         $input = $request->all();
 
         $validator = Validator::make($input, [
