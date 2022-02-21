@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Api\BaseController;
+use App\Http\Resources\LoanResource;
 use App\Models\Api\Loan;
 use Illuminate\Http\Request;
+use Validator;
 
 class LoanController extends BaseController
 {
@@ -15,17 +17,7 @@ class LoanController extends BaseController
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return $this->sendResponse(LoanResource::collection(Loan::all()), 'Loans retrieved successfully.');
     }
 
     /**
@@ -36,7 +28,23 @@ class LoanController extends BaseController
      */
     public function store(Request $request)
     {
-        //
+        $input = $request->all();
+
+        $validator = Validator::make($input, [
+            'income_id' => 'required|integer',
+            'payback_date' => 'required|date',
+            'payback_interest' => 'required|between:0,99.99',
+            'paid' => 'required|boolean',
+        ]);
+
+        if ($validator->fails()) {
+            return $this->sendError('Validation Error.', $validator->errors());
+        }
+
+        $loan = auth()->user()->loan()->create($input);
+
+        return $this->sendResponse(new LoanResource($loan), 'Loan created successfully.');
+
     }
 
     /**
@@ -45,20 +53,17 @@ class LoanController extends BaseController
      * @param  \App\Models\Api\Loan  $loan
      * @return \Illuminate\Http\Response
      */
-    public function show(Loan $loan)
+    public function show($id)
     {
-        //
-    }
+        $loan = Loan::with([
+            "user",
+        ])->findOrFail($id);
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Api\Loan  $loan
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Loan $loan)
-    {
-        //
+        if (is_null($loan)) {
+            return $this->sendError('Loan not found.');
+        }
+
+        return $this->sendResponse(new LoanResource($loan), 'Loan retrieved successfully.');
     }
 
     /**
@@ -70,7 +75,22 @@ class LoanController extends BaseController
      */
     public function update(Request $request, Loan $loan)
     {
-        //
+        $input = $request->all();
+
+        $validator = Validator::make($input, [
+            'income_id' => 'required|integer',
+            'payback_date' => 'required|date',
+            'payback_interest' => 'required|between:0,99.99',
+            'paid' => 'required|boolean',
+        ]);
+
+        if ($validator->fails()) {
+            return $this->sendError('Validation Error.', $validator->errors());
+        }
+
+        auth()->user()->loan()->update($request->all());
+
+        return $this->sendResponse(new LoanResource($loan), 'Loan updated successfully.');
     }
 
     /**
@@ -81,6 +101,8 @@ class LoanController extends BaseController
      */
     public function destroy(Loan $loan)
     {
-        //
+        $loan->delete();
+
+        return $this->sendResponse([], 'Loan deleted successfully.');
     }
 }
